@@ -1,0 +1,626 @@
+// ============================================================================
+// CARJACKED - DMV Driving Test Simulator
+// ============================================================================
+
+const gameData = {
+  game: {
+    title: "CarJacked – DMV Driving Test Simulator",
+    startPoint: "6556 Freedom Boulevard, Watsonville, CA",
+    totalDistance: "15-18 miles",
+    estimatedTime: "20-25 minutes",
+    passingScore: 70,
+    autoFailPoints: [
+      "Running red light or stop sign",
+      "No right turn on red at 41st/Brommer (CRITICAL)",
+      "Hitting curb",
+      "Unsafe lane changes",
+      "Failing to yield to pedestrians",
+      "Examiner intervention required",
+      "Close call with pedestrian",
+      "Stopping on railroad tracks",
+      "Improper merge forcing traffic",
+      "Extreme speeding",
+      "Going under lowered railroad gate"
+    ]
+  },
+  levels: [
+    {
+      id: 1,
+      name: "Freedom Boulevard Approach",
+      location: "6556 Freedom Blvd - Green Valley Road",
+      distance: "2-3 miles",
+      durationMinutes: 4,
+      speedLimit: "40-45 mph",
+      difficulty: "Easy",
+      criticalRules: [
+        "Maintain consistent speed",
+        "Check mirrors every 5-8 seconds",
+        "Keep 3-second following distance",
+        "Signal 100+ feet before turning",
+        "Stay centered in lane"
+      ],
+      hazards: [
+        "School buses",
+        "Pedestrians and cyclists",
+        "Traffic density increases"
+      ],
+      keyPoints: [
+        "Establish good mirror-checking habit early",
+        "Demonstrate confident speed management",
+        "Show smooth lane control"
+      ]
+    },
+    {
+      id: 2,
+      name: "Green Valley Road & Main Street",
+      location: "Green Valley Rd to Main St, Watsonville",
+      distance: "1-2 miles",
+      durationMinutes: 3,
+      speedLimit: "25-35 mph",
+      difficulty: "Easy-Medium",
+      criticalRules: [
+        "Complete stops at all stop signs",
+        "Look both directions at every intersection",
+        "Watch for sudden pedestrian crossings",
+        "Watch for parked cars opening doors",
+        "Lower residential speed limits"
+      ],
+      hazards: [
+        "Residential traffic",
+        "Stop signs (frequent)",
+        "Pedestrians in neighborhoods",
+        "Parked vehicles"
+      ],
+      keyPoints: [
+        "Demonstrate full stop compliance",
+        "Show pedestrian awareness",
+        "Practice residential area safety"
+      ]
+    },
+    {
+      id: 3,
+      name: "Valencia School Zone",
+      location: "250 Aptos School Road, Aptos",
+      distance: "1-2 miles",
+      durationMinutes: 3,
+      speedLimit: "25 mph (or posted lower)",
+      difficulty: "Medium",
+      criticalRules: [
+        "Speed limit 25 mph within 500-1000 feet of school",
+        "Speed limit enforced even without visible children",
+        "Obey crossing guards completely",
+        "Prepare to stop immediately",
+        "Reduce speed gradually (not abruptly)"
+      ],
+      hazards: [
+        "Children on bicycles/scooters",
+        "Crossing guards",
+        "School buses",
+        "Sudden pedestrian crossings",
+        "Low visibility areas"
+      ],
+      keyPoints: [
+        "Demonstrate speed reduction technique",
+        "Show crossing guard obedience",
+        "Practice pedestrian alert driving"
+      ]
+    },
+    {
+      id: 4,
+      name: "Railroad Crossing Protocol",
+      location: "Active railroad crossing location",
+      distance: "1-2 miles",
+      durationMinutes: 2,
+      speedLimit: "15 mph (uncontrolled crossings)",
+      difficulty: "Medium",
+      criticalRules: [
+        "NEVER stop ON railroad tracks",
+        "NEVER go under or around lowered gates",
+        "Speed limit 15 mph within 100 feet",
+        "Stop if lights are flashing",
+        "Look both directions for trains"
+      ],
+      hazards: [
+        "Flashing red lights",
+        "Lowered crossing gates",
+        "Train horns and bells",
+        "Multiple tracks",
+        "Silent trains (deadly)"
+      ],
+      keyPoints: [
+        "Know automatic failure points",
+        "Demonstrate hazard awareness",
+        "Practice safe crossing procedure"
+      ]
+    },
+    {
+      id: 5,
+      name: "Highway Merging & Passing Section",
+      location: "Highway scenic section (Highway 1 or local equivalent)",
+      distance: "3-4 miles",
+      durationMinutes: 5,
+      speedLimit: "55-65 mph",
+      difficulty: "Hard",
+      criticalRules: [
+        "Signal early (5 seconds/100 feet)",
+        "Check mirrors AND blind spots",
+        "Match highway speed smoothly",
+        "Find 4-second gap before merging",
+        "No sudden jerks or last-minute changes"
+      ],
+      hazards: [
+        "Fast-moving traffic",
+        "Blind spots",
+        "Multiple lanes",
+        "Merging vehicles",
+        "Lane changes required",
+        "Passing situations"
+      ],
+      keyPoints: [
+        "Master the 5-step merge process",
+        "Demonstrate blind spot checking",
+        "Practice smooth acceleration"
+      ]
+    },
+    {
+      id: 6,
+      name: "Santa Cruz Boardwalk/Beach Complex Pedestrian Area",
+      location: "Santa Cruz Boardwalk and beach parking areas",
+      distance: "2-3 miles",
+      durationMinutes: 5,
+      speedLimit: "15-25 mph",
+      difficulty: "Hard",
+      criticalRules: [
+        "Reduce speed significantly (15-25 mph)",
+        "ALWAYS yield to pedestrians in crosswalks",
+        "Stop completely - don't proceed if pedestrian near",
+        "Watch for tourists not paying attention",
+        "Smooth parallel parking (12 inches from curb)"
+      ],
+      hazards: [
+        "High pedestrian traffic",
+        "Tourists (unpredictable)",
+        "Bicyclists and skateboarders",
+        "One-way streets",
+        "Angled parking",
+        "Heavy traffic congestion",
+        "Jaywalking pedestrians"
+      ],
+      keyPoints: [
+        "Demonstrate pedestrian priority",
+        "Show parallel parking skill",
+        "Practice high-stress navigation"
+      ]
+    },
+    {
+      id: 7,
+      name: "41st Avenue & Brommer Street - CRITICAL INTERSECTION",
+      location: "41st Avenue (heading toward beach) to Brommer Street",
+      distance: "Return route segment",
+      durationMinutes: 2,
+      speedLimit: "25-35 mph",
+      difficulty: "EXTREME - AUTOMATIC FAIL POINT",
+      criticalRules: [
+        "⚠️ NO RIGHT TURN ON RED - POSTED SIGN",
+        "Coming to complete stop at red light",
+        "Wait for green arrow or green light",
+        "Check for pedestrians in crosswalk before turning",
+        "Signal turn smoothly",
+        "This is the #1 automatic failure point on this test"
+      ],
+      hazards: [
+        "Confusing traffic signal",
+        "Pedestrian traffic",
+        "Easy to make wrong assumption about right turn",
+        "Most test-takers fail here"
+      ],
+      keyPoints: [
+        "MEMORIZE this intersection rule",
+        "Practice waiting for green before turning right",
+        "Know this intersection cold before test day"
+      ]
+    }
+  ]
+};
+
+// Canvas & DOM
+const canvas = document.getElementById("game-canvas");
+const ctx = canvas.getContext("2d");
+
+const failModal = document.getElementById("fail-modal");
+const completeModal = document.getElementById("complete-modal");
+const gameoverModal = document.getElementById("gameover-modal");
+const pauseModal = document.getElementById("pause-modal");
+
+const hudLevelName = document.getElementById("hud-level-name");
+const hudLocation = document.getElementById("hud-location");
+const hudRules = document.getElementById("hud-rules");
+const hudHazards = document.getElementById("hud-hazards");
+const hudSpeedLimit = document.getElementById("hud-speed-limit");
+const hudDifficulty = document.getElementById("hud-difficulty");
+const hudSpeed = document.getElementById("hud-speed");
+const hudLevelNum = document.getElementById("hud-level-num");
+const scoreDisplay = document.getElementById("score-display");
+const levelDisplay = document.getElementById("level-display");
+
+// Game state
+let state = {
+  currentLevelIndex: 0,
+  score: 0,
+  autoFails: 0,
+  isPaused: false,
+  isComplete: false,
+  keys: {},
+  car: {
+    x: 0,
+    y: 0,
+    w: 40,
+    h: 70,
+    speed: 0,
+    angle: 0,
+    maxSpeed: 8,
+    accel: 0.15,
+    friction: 0.05
+  },
+  levelStartTime: 0,
+  frameCount: 0,
+  violations: []
+};
+
+// Input
+window.addEventListener("keydown", e => {
+  const key = e.key.toLowerCase();
+  state.keys[key] = true;
+  if (key === "p") togglePause();
+  if (key === "n" && !state.isComplete) nextLevel();
+});
+
+window.addEventListener("keyup", e => {
+  state.keys[e.key.toLowerCase()] = false;
+});
+
+// Init
+function initializeGame() {
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+  startGame();
+}
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth * 0.7;
+  canvas.height = window.innerHeight;
+}
+
+function startGame() {
+  state.currentLevelIndex = 0;
+  state.score = 0;
+  state.autoFails = 0;
+  state.isComplete = false;
+  closeAllModals();
+  startLevel(0);
+  gameLoop();
+}
+
+function startLevel(index) {
+  state.currentLevelIndex = Math.min(index, gameData.levels.length - 1);
+  state.levelStartTime = Date.now();
+  state.frameCount = 0;
+  state.violations = [];
+
+  const level = gameData.levels[state.currentLevelIndex];
+
+  state.car.x = canvas.width * 0.5;
+  state.car.y = canvas.height * 0.6;
+  state.car.speed = 0;
+  state.car.angle = -Math.PI / 2;
+
+  updateHUD(level);
+}
+
+function updateHUD(level) {
+  hudLevelName.textContent = level.name;
+  hudLocation.textContent = level.location;
+  hudSpeedLimit.textContent = level.speedLimit;
+  hudDifficulty.textContent = level.difficulty;
+
+  hudRules.innerHTML = "";
+  level.criticalRules.slice(0, 5).forEach(rule => {
+    const li = document.createElement("li");
+    li.textContent = rule;
+    hudRules.appendChild(li);
+  });
+
+  hudHazards.innerHTML = "";
+  level.hazards.slice(0, 5).forEach(h => {
+    const li = document.createElement("li");
+    li.textContent = h;
+    hudHazards.appendChild(li);
+  });
+
+  hudLevelNum.textContent = `${state.currentLevelIndex + 1}/${gameData.levels.length}`;
+  levelDisplay.textContent = state.currentLevelIndex + 1;
+  scoreDisplay.textContent = state.score;
+}
+
+function nextLevel() {
+  if (state.currentLevelIndex < gameData.levels.length - 1) {
+    state.currentLevelIndex++;
+    startLevel(state.currentLevelIndex);
+    closeAllModals();
+  } else {
+    completeGame();
+  }
+}
+
+function skipLevel() {
+  state.autoFails++;
+  document.getElementById("fail-display").textContent = state.autoFails;
+  nextLevel();
+}
+
+function retryLevel() {
+  startLevel(state.currentLevelIndex);
+  closeAllModals();
+}
+
+function completeGame() {
+  state.isComplete = true;
+  const gameoverMessage = document.getElementById("gameover-message");
+  const finalScore = state.score - state.autoFails * 30;
+  const passed = finalScore >= gameData.game.passingScore;
+  gameoverMessage.innerHTML = `
+    <strong>${passed ? "PASSED!" : "FAILED"}</strong><br>
+    Final Score: ${Math.max(0, finalScore)}<br>
+    Auto-Fails: ${state.autoFails}<br>
+    ${passed ? "You are ready for the real test!" : "Review the rules and try again."}
+  `;
+  gameoverModal.classList.add("active");
+}
+
+function togglePause() {
+  state.isPaused = !state.isPaused;
+  if (state.isPaused) {
+    pauseModal.classList.add("active");
+  } else {
+    pauseModal.classList.remove("active");
+  }
+}
+
+function closeAllModals() {
+  failModal.classList.remove("active");
+  completeModal.classList.remove("active");
+  gameoverModal.classList.remove("active");
+  pauseModal.classList.remove("active");
+}
+
+function triggerAutoFail(reason) {
+  state.autoFails++;
+  document.getElementById("fail-display").textContent = state.autoFails;
+  const failMessage = document.getElementById("fail-message");
+  failMessage.innerHTML = `<strong>AUTO-FAIL</strong><br>${reason}`;
+  failModal.classList.add("active");
+}
+
+// Game loop
+function update() {
+  if (state.isPaused || state.isComplete) return;
+
+  const { keys, car } = state;
+
+  if (keys["arrowup"] || keys["w"]) car.speed += car.accel;
+  if (keys["arrowdown"] || keys["s"]) car.speed -= car.accel;
+
+  car.speed = Math.max(-car.maxSpeed * 0.5, Math.min(car.maxSpeed, car.speed));
+
+  if (Math.abs(car.speed) > 0.1) {
+    if (keys["arrowleft"] || keys["a"]) car.angle -= 0.04 * Math.sign(car.speed);
+    if (keys["arrowright"] || keys["d"]) car.angle += 0.04 * Math.sign(car.speed);
+  }
+
+  if (car.speed > 0) car.speed -= car.friction;
+  else if (car.speed < 0) car.speed += car.friction;
+  if (Math.abs(car.speed) < 0.02) car.speed = 0;
+
+  car.x += Math.cos(car.angle) * car.speed;
+  car.y += Math.sin(car.angle) * car.speed;
+
+  const margin = 40;
+  car.x = Math.max(margin, Math.min(canvas.width - margin, car.x));
+  car.y = Math.max(margin, Math.min(canvas.height - margin, car.y));
+
+  checkViolations();
+
+  const displaySpeed = Math.abs(Math.round(car.speed * 10));
+  hudSpeed.textContent = `${displaySpeed} mph`;
+
+  state.frameCount++;
+
+  const levelDuration = gameData.levels[state.currentLevelIndex].durationMinutes * 1000;
+  if (Date.now() - state.levelStartTime > levelDuration + 2000 && state.frameCount > 60) {
+    state.score += 100 - state.violations.length * 5;
+    const completeMessage = document.getElementById("complete-message");
+    completeMessage.innerHTML = `Level ${state.currentLevelIndex + 1} Complete<br>Score: +${100 - state.violations.length * 5}`;
+    completeModal.classList.add("active");
+  }
+}
+
+function checkViolations() {
+  const level = gameData.levels[state.currentLevelIndex];
+  const { car } = state;
+
+  // Level 7: 41st & Brommer
+  if (state.currentLevelIndex === 6) {
+    const intersectionX = canvas.width * 0.5;
+    const intersectionY = canvas.height * 0.3;
+    const distToIntersection = Math.hypot(car.x - intersectionX, car.y - intersectionY);
+
+    if (distToIntersection < 100) {
+      const lightCycle = Math.floor((state.frameCount / 180) % 2);
+      const isRedLight = lightCycle === 0;
+
+      if (isRedLight && Math.abs(car.angle) < 0.5 && car.speed > 0) {
+        if (!state.violations.includes("right_on_red_41st")) {
+          state.violations.push("right_on_red_41st");
+          triggerAutoFail("❌ NO RIGHT TURN ON RED @ 41st & Brommer\nAUTOMATIC TEST FAILURE!");
+        }
+      }
+    }
+  }
+
+  const speedLimitStr = level.speedLimit.split("-")[0];
+  const speedLimit = parseInt(speedLimitStr) || 55;
+  const carSpeed = Math.abs(state.car.speed * 10);
+
+  if (carSpeed > speedLimit * 1.2 && !state.violations.includes("speeding")) {
+    state.violations.push("speeding");
+  }
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const roadWidth = canvas.width * 0.35;
+  const roadX = canvas.width * 0.5 - roadWidth / 2;
+
+  ctx.fillStyle = "#222233";
+  ctx.fillRect(roadX, 0, roadWidth, canvas.height);
+
+  ctx.strokeStyle = "#ffd45a";
+  ctx.lineWidth = 3;
+  ctx.setLineDash([40, 20]);
+  ctx.beginPath();
+  ctx.moveTo(canvas.width * 0.5, 0);
+  ctx.lineTo(canvas.width * 0.5, canvas.height);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.strokeStyle = "#ffd45aaa";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(roadX, 0);
+  ctx.lineTo(roadX, canvas.height);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(roadX + roadWidth, 0);
+  ctx.lineTo(roadX + roadWidth, canvas.height);
+  ctx.stroke();
+
+  const sunY = canvas.height * 0.2;
+  const sunR = canvas.height * 0.15;
+  const sunX = canvas.width * 0.5;
+  const grd = ctx.createRadialGradient(sunX, sunY, sunR * 0.2, sunX, sunY, sunR);
+  grd.addColorStop(0, "#ffe98acc");
+  grd.addColorStop(0.5, "#ff8a4acc");
+  grd.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, sunR, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#260043dd";
+  ctx.beginPath();
+  ctx.moveTo(0, sunY + sunR * 0.5);
+  ctx.lineTo(canvas.width * 0.3, sunY - 60);
+  ctx.lineTo(canvas.width * 0.6, sunY + 20);
+  ctx.lineTo(canvas.width, sunY + sunR * 0.4);
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.lineTo(0, canvas.height);
+  ctx.closePath();
+  ctx.fill();
+
+  drawCar(state.car);
+
+  if (state.currentLevelIndex === 6) {
+    drawIntersection();
+  }
+
+  drawHazards();
+}
+
+function drawCar(car) {
+  ctx.save();
+  ctx.translate(car.x, car.y);
+  ctx.rotate(car.angle);
+
+  ctx.fillStyle = "#ff7b2c";
+  ctx.strokeStyle = "#ffd45a";
+  ctx.lineWidth = 2;
+  ctx.fillRect(-car.w / 2, -car.h / 2, car.w, car.h);
+  ctx.strokeRect(-car.w / 2, -car.h / 2, car.w, car.h);
+
+  ctx.fillStyle = "#0a1622dd";
+  ctx.fillRect(-car.w / 2 + 4, -car.h / 2 + 8, car.w - 8, 20);
+
+  ctx.fillStyle = "#0a1622aa";
+  ctx.fillRect(-car.w / 2 + 6, -car.h / 2 + 28, car.w - 12, 14);
+
+  ctx.fillStyle = "#111";
+  const wheelW = 8;
+  const wheelH = 16;
+  ctx.fillRect(-car.w / 2 - 4, -car.h / 2 + 5, wheelW, wheelH);
+  ctx.fillRect(-car.w / 2 - 4, car.h / 2 - 21, wheelW, wheelH);
+  ctx.fillRect(car.w / 2 - 4, -car.h / 2 + 5, wheelW, wheelH);
+  ctx.fillRect(car.w / 2 - 4, car.h / 2 - 21, wheelW, wheelH);
+
+  ctx.fillStyle = "#ffeb3b";
+  ctx.beginPath();
+  ctx.arc(-car.w / 2 + 4, -car.h / 2, 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(car.w / 2 - 4, -car.h / 2, 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawIntersection() {
+  const intersectionX = canvas.width * 0.5;
+  const intersectionY = canvas.height * 0.3;
+
+  ctx.fillStyle = "rgba(255, 100, 100, 0.3)";
+  ctx.beginPath();
+  ctx.arc(intersectionX, intersectionY, 80, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#333";
+  ctx.fillRect(intersectionX + 70, intersectionY - 30, 20, 80);
+
+  const lightCycle = Math.floor((state.frameCount / 180) % 2);
+  ctx.fillStyle = lightCycle === 0 ? "#ff4444" : "#44ff44";
+  ctx.beginPath();
+  ctx.arc(intersectionX + 80, intersectionY - 10, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#ff6b9d";
+  ctx.font = "bold 14px Arial";
+  ctx.fillText("NO RIGHT", intersectionX - 40, intersectionY - 60);
+  ctx.fillText("ON RED", intersectionX - 35, intersectionY - 44);
+}
+
+function drawHazards() {
+  const level = gameData.levels[state.currentLevelIndex];
+  const pedestrianCount = level.id === 6 ? 4 : 1;
+
+  for (let i = 0; i < pedestrianCount; i++) {
+    const x = canvas.width * 0.35 + i * 40;
+    const y = canvas.height * 0.5 + Math.sin(state.frameCount * 0.02 + i) * 20;
+
+    ctx.fillStyle = "rgba(255, 107, 157, 0.6)";
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#ff6b9d";
+    ctx.font = "bold 10px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("P", x, y + 3);
+  }
+}
+
+function gameLoop() {
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+window.addEventListener("load", initializeGame);
