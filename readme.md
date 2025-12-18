@@ -1,6 +1,6 @@
 # CarJacked – DMV Driving Test Simulator
 
-A browser-based driving test game styled after GTA: San Andreas and synthwave aesthetics. Navigate the real Watsonville-to-Aptos DMV test route, master critical intersections, and avoid automatic failure scenarios.
+A browser-based driving test game styled after GTA: San Andreas and synthwave aesthetics. Navigate the real Watsonville-to-Santa Cruz roadways, master critical intersections, and avoid automatic failure scenarios.
 
 ## How to Play
 
@@ -14,7 +14,7 @@ A browser-based driving test game styled after GTA: San Andreas and synthwave ae
 **Level 7: 41st Ave & Brommer**
 - There's a **NO RIGHT TURN ON RED** sign
 - Turning right on red = **INSTANT TEST FAILURE**
-- This is the most common auto-fail on the real Watsonville DMV test
+- This is the most common auto-fail on the real Capitola DMV test
 
 ## Features
 
@@ -38,4 +38,4 @@ A browser-based driving test game styled after GTA: San Andreas and synthwave ae
 
 ---
 
-Made for Watsonville DMV test prep.
+Made for Capitola DMV test prep.
