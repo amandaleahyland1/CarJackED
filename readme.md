@@ -27,7 +27,7 @@ A browser-based driving test game styled after GTA: San Andreas and synthwave ae
 
 ## Play Now
 
-🎮 **Live Game:** [https://yourusername.github.io/carjacked](https://yourusername.github.io/carjacked)
+🎮 **Live Game:** [https://amandaleahyland1.github.io/carjacked](https://amandaleahyland1.github.io/carjacked)
 
 ## Development
 
