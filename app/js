@@ -4,7 +4,7 @@
 
 const gameData = {
   game: {
-    title: "CarJacked – DMV Driving Test Simulator",
+    title: "CarJackED",
     startPoint: "6556 Freedom Boulevard, Aptos, CA",
     totalDistance: "15-18 miles",
     estimatedTime: "20-25 minutes",
