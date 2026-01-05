@@ -60,6 +60,30 @@
       text-transform: uppercase;
     }
 
+    #hud-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #download-btn {
+      padding: 8px 14px;
+      background: none;
+      border: 1px solid var(--neon);
+      color: var(--neon);
+      font-family: Oswald, sans-serif;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    #download-btn:hover {
+      background: var(--neon);
+      color: #000;
+      box-shadow: 0 0 12px rgba(0, 255, 156, 0.35);
+    }
+
     #stats {
       font-size: 13px;
       color: var(--muted);
@@ -416,7 +440,10 @@
   <div id="landing">
     <div id="hud">
       <div id="title">CarJackEd</div>
-      <div id="stats">XP <span id="xp">0</span> · Car <span id="car">Beater Prelude</span></div>
+      <div id="hud-actions">
+        <button id="download-btn" onclick="downloadCode()">Download HTML</button>
+        <div id="stats">XP <span id="xp">0</span> · Car <span id="car">Beater Prelude</span></div>
+      </div>
     </div>
 
     <div id="world">
@@ -1219,6 +1246,21 @@ window.addEventListener("load", initializeGame);
       "Challenger (Black + Green)",
       "Hypercar"
     ];
+
+    function downloadCode() {
+      const htmlContent = `<!DOCTYPE html>\n${document.documentElement.outerHTML}`;
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "CarJackEd.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    }
 
     function completeZone(index) {
       xp += 250;
